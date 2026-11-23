@@ -209,7 +209,7 @@ function renderLibrary() {
   }, true)));
   if (!filtered.length) {
     const message = !catalog ? "还没有可读取的目录。请运行「temp/同步论文目录.ps1」初始化或同步资料库。" :
-      !papers.length && !state.category ? "资料库是空的。把论文放入 data/论文，填写 data/catalog.json 后同步目录。" :
+      !papers.length && !state.category ? "资料库是空的。把新 PDF 放入 data/新论文临时区，按工作台说明入库后再同步目录。" :
       "当前筛选下没有论文。";
     $("paper-list").append(empty(message));
   }

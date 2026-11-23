@@ -19,3 +19,16 @@
 !/temp/
 /temp/*
 !/temp/同步论文目录.ps1
+
+# 仅保留四个资料目录的空占位文件。
+!/data/
+/data/*
+!/data/新论文临时区/
+!/data/论文/
+!/data/笔记/
+!/data/书籍报告/
+/data/*/*
+!/data/新论文临时区/.gitkeep
+!/data/论文/.gitkeep
+!/data/笔记/.gitkeep
+!/data/书籍报告/.gitkeep

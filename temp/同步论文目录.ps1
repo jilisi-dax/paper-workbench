@@ -5,8 +5,10 @@ $dataRoot = Join-Path $root 'data'
 $cacheRoot = Join-Path $root 'cache'
 $inputPath = Join-Path $dataRoot 'catalog.json'
 $outputPath = Join-Path $cacheRoot 'catalog.js'
+foreach ($directory in @('新论文临时区', '论文/原始pdf', '笔记', '书籍报告')) {
+    [System.IO.Directory]::CreateDirectory((Join-Path $dataRoot $directory)) | Out-Null
+}
 if (-not (Test-Path -LiteralPath $inputPath -PathType Leaf)) {
-    [System.IO.Directory]::CreateDirectory((Join-Path $dataRoot '论文/原始pdf')) | Out-Null
     [System.IO.File]::Copy((Join-Path $root 'catalog.example.json'), $inputPath, $false)
 }
 $raw = [System.IO.File]::ReadAllText($inputPath)
