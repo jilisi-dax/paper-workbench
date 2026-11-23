@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>论文工作台</title>
+  <link rel="stylesheet" href="阅读器/style.css">
+  <script defer src="cache/catalog.js"></script>
+  <script defer src="阅读器/notes.js"></script>
+  <script defer src="阅读器/pdf-view.js"></script>
+  <script defer src="阅读器/floating-window.js"></script>
+  <script defer src="阅读器/app.js"></script>
+</head>
+<body>
+  <header id="topbar" class="topbar">
+    <a class="brand" href="#" id="home"><span class="brand-mark" aria-hidden="true"><i></i></span>论文工作台</a>
+    <nav class="topnav" aria-label="主导航">
+      <button id="show-library" class="nav-button" type="button">文献库</button>
+      <button id="show-notes" class="nav-button" type="button">全部笔记</button>
+    </nav>
+    <div class="tools" id="backup-tools">
+      <details class="backup" id="backup">
+        <summary>笔记备份</summary>
+        <div class="backup-menu">
+          <button id="save-folder" type="button">保存到资料目录</button>
+          <button id="export-notes" type="button">下载备份 JSON</button>
+          <button id="import-notes" type="button">导入笔记 JSON</button>
+        </div>
+      </details>
+      <input id="backup-file" type="file" accept=".json,application/json" hidden>
+    </div>
+  </header>
+
+  <main id="library" class="library">
+    <aside class="sidebar">
+      <h2>文献分类</h2>
+      <nav id="categories" aria-label="文献分类"></nav>
+    </aside>
+    <section class="collection" aria-labelledby="collection-title">
+      <div class="collection-heading">
+        <div><h1 id="collection-title">全部文献</h1><p id="collection-meta" class="muted"></p></div>
+        <div class="collection-sort" role="group" aria-label="文献排序">
+          <span>排序</span>
+          <select id="paper-sort-field" aria-label="排序依据">
+            <option value="published">发表时间</option>
+            <option value="addedAt">入库时间</option>
+            <option value="impact">影响力（被引次数）</option>
+          </select>
+          <select id="paper-sort-direction" aria-label="排序方向">
+            <option value="desc">降序</option>
+            <option value="asc">升序</option>
+          </select>
+        </div>
+      </div>
+      <label class="search"><span class="search-icon" aria-hidden="true"></span><input id="paper-search" type="search" placeholder="搜索标题、团队、标签…" aria-label="搜索论文"></label>
+      <div id="paper-list" class="paper-list"></div>
+    </section>
+    <aside id="paper-detail" class="paper-detail" aria-label="选中文献"></aside>
+  </main>
+
+  <main id="reader" class="reader" hidden>
+    <aside id="reader-nav" class="reader-nav" aria-label="文献导航">
+      <a class="brand reader-brand" href="#" id="reader-home"><span class="brand-mark" aria-hidden="true"><i></i></span><span>论文工作台</span></a>
+      <button id="toggle-nav" type="button" class="rail-toggle" aria-expanded="false" aria-controls="nav-drawer"><span aria-hidden="true">☰</span> 文献导航</button>
+      <nav id="rail-categories" class="rail-categories" aria-label="阅读分类"></nav>
+      <nav id="rail-papers" class="rail-papers" aria-label="阅读文献"></nav>
+    </aside>
+    <button id="nav-shade" type="button" tabindex="-1" class="nav-shade" aria-label="收起文献导航" hidden></button>
+    <aside id="nav-drawer" class="nav-drawer" aria-label="展开的文献导航" hidden>
+      <div class="drawer-header">
+        <h2>文献导航</h2>
+        <button id="close-nav" type="button" class="quiet">收起</button>
+      </div>
+      <label class="search"><span class="search-icon" aria-hidden="true"></span><input id="nav-search" type="search" placeholder="搜索文献…" aria-label="搜索阅读文献"></label>
+      <nav id="drawer-categories" aria-label="展开的文献分类"></nav>
+      <div id="drawer-papers" class="paper-list"></div>
+    </aside>
+
+    <div class="pdf-pane" id="pdf-pane" aria-label="PDF 阅读区"></div>
+
+    <aside class="reading-sidebar" aria-label="阅读侧栏">
+      <div class="side-heading">
+        <h1 id="reader-title"></h1>
+        <button type="button" id="compare" class="version compare">中英对照</button>
+      </div>
+      <div class="reading-tabs" id="reading-tabs" aria-label="阅读选项"></div>
+      <div id="reading-panel" class="reading-panel"></div>
+      <div id="reader-backup-slot" class="reader-backup-slot"></div>
+    </aside>
+  </main>
+
+  <main id="all-notes" class="notes-page" hidden>
+    <h1>全部笔记</h1>
+    <p class="muted" id="all-notes-meta"></p>
+    <label class="search"><span class="search-icon" aria-hidden="true"></span><input id="note-search" type="search" placeholder="搜索笔记或论文…" aria-label="搜索笔记"></label>
+    <div id="all-notes-list" class="note-list"></div>
+  </main>
+
+  <button type="button" id="open-thoughts" class="thought-launcher" aria-expanded="false" aria-controls="thought-window">
+    <span class="chat-mark" aria-hidden="true"></span>随想录
+  </button>
+  <section id="thought-window" class="thought-window" role="dialog" aria-labelledby="thought-title" hidden>
+    <div id="thought-handle" class="thought-header">
+      <h2 id="thought-title"><span class="chat-mark" aria-hidden="true"></span>随想录</h2>
+      <button id="close-thoughts" type="button" class="quiet thought-close" aria-label="关闭随想录" title="关闭随想录">×</button>
+    </div>
+    <div id="thought-history" class="message-history" aria-label="随想录消息"></div>
+    <div id="thought-composer"></div>
+  </section>
+  <div id="paper-note-tip" class="paper-note-tip" role="tooltip" hidden></div>
+
+  <section class="paper-intro" id="paper-intro" popover="auto" role="dialog" aria-labelledby="paper-intro-label">
+    <header class="paper-intro-header">
+      <h2 id="paper-intro-label">内容介绍</h2>
+      <button type="button" class="quiet paper-intro-close" popovertarget="paper-intro"
+        popovertargetaction="hide" aria-label="关闭内容介绍">×</button>
+    </header>
+    <div class="paper-intro-body">
+      <p id="paper-intro-title" class="paper-intro-title"></p>
+      <div id="paper-intro-sections" class="paper-intro-sections"></div>
+    </div>
+  </section>
+
+  <dialog class="image-dialog" id="image-dialog">
+    <form method="dialog"><button class="quiet" aria-label="关闭图片">关闭</button></form>
+    <img id="full-image" alt="">
+  </dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

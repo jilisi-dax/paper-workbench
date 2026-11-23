@@ -1,0 +1,21 @@
+# 只跟踪工程文件。新增工程文件时更新此清单。
+/*
+!/.gitignore
+!/README.txt
+!/论文阅读.html
+!/阅读工作台说明.txt
+!/catalog.example.json
+!/阅读器/
+/阅读器/*
+!/阅读器/app.js
+!/阅读器/floating-window.js
+!/阅读器/notes.js
+!/阅读器/pdf-view.js
+!/阅读器/style.css
+!/阅读器/vendor/
+/阅读器/vendor/*
+!/阅读器/vendor/pdf-engine.js
+!/阅读器/vendor/PDF.js-LICENSE.txt
+!/temp/
+/temp/*
+!/temp/同步论文目录.ps1
